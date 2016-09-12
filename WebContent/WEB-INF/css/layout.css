@@ -1,0 +1,37 @@
+body
+{
+    font: normal 14px Arial;
+    background: #f7f7f7;
+}
+
+header h1
+{
+    color: #f01e14;
+}
+
+main > section
+{
+    margin: 2em;
+    padding: 1em;
+    box-shadow: 0em 0em 4em #DDD;
+    background: #FFF;
+    color: #333;
+}
+
+main > section h1
+{
+    color: #666;
+    font-weight: normal;
+    margin: 0.5em 0em;
+}
+
+main > section p
+{
+    margin: 0.5em;
+}
+
+footer
+{
+    text-align: center;
+    color: #333;
+}

@@ -39,7 +39,7 @@
          <outputDirectory>${basedir}/target/.ebextensions</outputDirectory>
          <resources>
            <resource>
-               <directory>.ebextensions</directory>
+               <directory>ebextensions</directory>
                <targetPath>${project.build.directory}/${project.name}-${project.version}/.ebextensions</targetPath>
                <filtering>true</filtering>
            </resource>

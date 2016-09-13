@@ -1,6 +1,7 @@
 package net.the_wyvern.code.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Person implements Serializable
 {
@@ -10,10 +11,18 @@ public class Person implements Serializable
     private String lastName;
     private Integer age;  
     private Integer shoeSize;
-    private String processedBy;
-/*    
+    private boolean sessionBased = false;
+    private boolean generateLoad;
+    
+
+
+	private ArrayList<String> hosts;
+        
     public Person()
     {
+        this.hosts = new ArrayList<String>(); 
+    }
+    /*
         this.firstName="unset";
         this.lastName="unset";
         this.age = 0;
@@ -52,20 +61,44 @@ public class Person implements Serializable
 		this.shoeSize = shoeSize;
 	}  
 	
+    public boolean isGenerateLoad() {
+		return generateLoad;
+	}
+
+	public void setGenerateLoad(boolean generateLoad) {
+		this.generateLoad = generateLoad;
+	}	
 	public String toString() {
 		return "[" + firstName + " " + lastName + " / " + age + " / " + shoeSize + "]";
 	}
 	
-	/////////////////////////
-	
-    public String getProcessedBy()
-    {
-        return processedBy;
-    }
-
-    public void setProcessedBy(String processedBy)
-    {
-        this.processedBy = processedBy;
+    
+    /////////////////////////
+    public String getHosts() {
+    	StringBuffer buff = new StringBuffer();
+    	buff.append("[ ");
+    	for (int i = 0 ; i < hosts.size(); i++ ) {
+    		
+    		buff.append(hosts.get(i));
+    		if ( (i+1) != hosts.size()) {
+    			buff.append(", ");
+    		}
+    		
+    	}
+    	buff.append("]");
+    	return buff.toString();
     }
     
+    public void addHostToList(String s) {
+    	hosts.add(s);
+    }
+    /////////////////////////
+
+    public boolean isSessionBased() {
+		return sessionBased;
+	}
+
+	public void setSessionBased(boolean b) {
+		this.sessionBased= b;
+	}	
 }

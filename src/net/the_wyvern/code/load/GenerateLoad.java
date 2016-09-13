@@ -1,5 +1,7 @@
 package net.the_wyvern.code.load;
 
+import java.util.ArrayList;
+
 /**
  * Generates Load on the CPU by keeping it busy for the given load percentage
  * @author Sriram
@@ -11,7 +13,7 @@ public class GenerateLoad {
 
 	static int numCore = 1;
 	static int numThreadsPerCore = 1;
-	static double load = 0.8;
+	static double load = 0.5;
 	static long duration = 1000; /* ms */
 
 	/**
@@ -23,8 +25,21 @@ public class GenerateLoad {
 	}
 
 	public static void go() {
-		for (int thread = 0; thread < numCore * numThreadsPerCore; thread++) {
-			new BusyThread("Thread" + thread, load, duration).start();
+		int tc = numCore * numThreadsPerCore;
+		ArrayList<Thread> aT = new ArrayList<Thread>(tc);
+		
+		for (int thread = 0; thread < tc; thread++) {
+			Thread t = new BusyThread("Thread" + thread, load, duration); 
+			aT.add(t);
+			t.start();
+		}
+		for (Thread t : aT) {
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -58,8 +73,8 @@ public class GenerateLoad {
 				// Loop for the given duration
 				while (System.currentTimeMillis() - startTime < duration) {
 					// Every 100ms, sleep for the percentage of unladen time
-					if (System.currentTimeMillis() % 100 == 0) {
-						Thread.sleep((long) Math.floor((1 - load) * 100));
+					if (System.currentTimeMillis() % 10 == 0) {
+						Thread.sleep((long) Math.floor((1 - load) * 10));
 					}
 				}
 			} catch (InterruptedException e) {

@@ -14,19 +14,14 @@
 <body>
 <h1>Person Result page</h1>
 
-<c:if test="${!empty sessionData.processedBy}">
+<c:if test="${sessionData.sessionBased}">
 <!-- Session Data Present -->
 <p>Student's name is ${sessionData.firstName}. The age is ${sessionData.age}.</p>
 <c:set var="destination" scope="request" value="session-finalize-person.html" />
-<p>
-        <strong>
-            Processed By:
-        </strong>
-        <c:out value="${sessionData.processedBy}" />
-    </p>
+<p><strong>Processed By:</strong> <c:out value="${sessionData.hosts}"/></p>
 </c:if>
 
-<c:if test="${empty sessionData.processedBy}">
+<c:if test="${! sessionData.sessionBased}">
 <!-- Session Data Not Present -->
 <p>Student's name is ${person.firstName}. The age is ${person.age}.</p>
 <c:set var="destination" scope="request" value="finalize-person.html" />
@@ -41,10 +36,17 @@
         <td><form:label path="lastName">last name:</form:label></td>
         <td><form:input path="lastName" /></td>
     </tr>
+    
     <tr>
         <td><form:label path="shoeSize">shoe size:</form:label></td>
         <td><form:input path="shoeSize" /></td>
     </tr>
+
+    <tr>
+        <td><form:label path="generateLoad">Generate Load?</form:label></td>
+        <td><form:checkbox path="generateLoad" /></td>
+    </tr>
+    
     <tr>
         <td colspan="2">
             <input type="submit" value="Submit"/>
@@ -57,6 +59,6 @@
 
    <p><a href="${pageContext.request.contextPath}/">Return to start</a></p>
    Generated on <strong><c:out value="${hostname}" /></strong>
-
+Session: <c:out value="${pageContext.session.id}"/>
 </body>
 </html>

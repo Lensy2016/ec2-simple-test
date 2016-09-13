@@ -1,6 +1,7 @@
 package net.the_wyvern.code.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class SessionData implements Serializable
 {
@@ -8,7 +9,8 @@ public class SessionData implements Serializable
 
     private String processedBy;
     private String value;
-
+ 
+    
     public SessionData()
     {
         this.processedBy = "none";
@@ -34,5 +36,5 @@ public class SessionData implements Serializable
     {
         this.value = value;
     }
-
+    
 }

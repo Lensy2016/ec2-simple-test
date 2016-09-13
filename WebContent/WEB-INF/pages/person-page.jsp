@@ -13,13 +13,12 @@
 <h1>Person page</h1>
 <p>This is Person page</p>
 
-<c:if test="${!empty sessionData.processedBy}">
+<c:if test="${sessionData.sessionBased}">
 <c:set var="destination" scope="request" value="session-process-person.html" />
-<p><strong>Processed By:</strong><c:out value="${sessionData.processedBy}" /></p>
-<c:set target="sessionData" property="processedBy" value="${hostname}" />
+<p><strong>Processed By:</strong> <c:out value="${sessionData.hosts}"/></p>
 </c:if>
 
-<c:if test="${empty sessionData.processedBy}">
+<c:if test="${! sessionData.sessionBased}">
 <c:set var="destination" scope="request" value="process-person.html" />
 </c:if>
 
@@ -44,5 +43,6 @@
 </form:form>
 <p><a href="${pageContext.request.contextPath}/">Return to start</a></p>
 Generated on <strong><c:out value="${hostname}" /></strong>
+Session: <c:out value="${pageContext.session.id}"/>
 </body>
 </html>

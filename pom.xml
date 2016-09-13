@@ -41,7 +41,7 @@
            <resource>
                <directory>ebextensions</directory>
                <targetPath>${project.build.directory}/${project.name}-${project.version}/.ebextensions</targetPath>
-               <filtering>true</filtering>
+               <filtering>false</filtering>
            </resource>
          </resources>
        </configuration>

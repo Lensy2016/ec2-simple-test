@@ -12,22 +12,22 @@
 <body>
 <h1>Person Result page</h1>
 
-<c:if test="${!empty sessionData.processedBy}">
+<c:if test="${sessionData.sessionBased}">
 <p>Student's name is ${sessionData.firstName} ${sessionData.lastName}. The age is ${sessionData.age} and shoe size is ${sessionData.shoeSize}.</p>
 <p>
         <strong>
             Processed By:
         </strong>
-         <c:out value="${sessionData.processedBy}" />
+
     </p>
 </c:if>
 
-<c:if test="${empty sessionData.processedBy}">
+<c:if test="${! sessionData.sessionBased}">
 <p>Student's name is ${pers.firstName} ${pers.lastName}. The age is ${pers.age} and shoe size is ${pers.shoeSize}.</p>
 </c:if>
 
 <p><a href="${pageContext.request.contextPath}/">Return to start</a></p>
 Generated on <strong><c:out value="${hostname}" /></strong>
-
+Session: <c:out value="${pageContext.session.id}"/>
 </body>
 </html>

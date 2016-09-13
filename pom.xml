@@ -23,6 +23,32 @@
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
+
+
+<plugin>
+   <artifactId>maven-resources-plugin</artifactId>
+   <version>2.6</version>
+   <executions>
+     <execution>
+       <id>copy-resources</id>
+       <phase>validate</phase>
+       <goals>
+         <goal>copy-resources</goal>
+       </goals>
+       <configuration>
+         <outputDirectory>${basedir}/target/.ebextensions</outputDirectory>
+         <resources>
+           <resource>
+               <directory>.ebextensions</directory>
+               <targetPath>${project.build.directory}/${project.name}-${project.version}/.ebextensions</targetPath>
+               <filtering>true</filtering>
+           </resource>
+         </resources>
+       </configuration>
+     </execution>
+   </executions>
+ </plugin>
+
     </plugins>
   </build>
   
@@ -113,4 +139,6 @@
             <version>1.6.4</version>
        </dependency>
   </dependencies>		
+  
+
 </project>

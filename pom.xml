@@ -27,6 +27,7 @@
 				</configuration>
 			</plugin>
 
+<!--  No longer using dynamodb
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
@@ -52,6 +53,7 @@
 					</execution>
 				</executions>
 			</plugin>
+-->
 
 			<!-- Embedded Tomcat server -->
 			<plugin>

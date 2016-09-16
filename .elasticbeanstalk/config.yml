@@ -1,0 +1,13 @@
+branch-defaults:
+  initial-setup:
+    environment: ec2-simple-test-dev
+    group_suffix: null
+deploy:
+  artifact: target/SimpleEC2App-0.0.1-SNAPSHOT.war
+global:
+  application_name: ec2-simple-test
+  default_ec2_keyname: NGPP
+  default_platform: Tomcat 7 Java 7
+  default_region: eu-west-1
+  profile: eb-cli
+  sc: git

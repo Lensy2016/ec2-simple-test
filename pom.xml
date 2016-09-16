@@ -14,8 +14,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 
@@ -27,33 +27,14 @@
 				</configuration>
 			</plugin>
 
-<!--  No longer using dynamodb
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target/.ebextensions</outputDirectory>
-							<resources>
-								<resource>
-									<directory>environment/aws/ebextensions</directory>
-									<targetPath>
-										${project.build.directory}/${project.name}-${project.version}/.ebextensions
-									</targetPath>
-									<filtering>false</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
--->
+			<!-- No longer using dynamodb <plugin> <artifactId>maven-resources-plugin</artifactId> 
+				<version>2.6</version> <executions> <execution> <id>copy-resources</id> <phase>validate</phase> 
+				<goals> <goal>copy-resources</goal> </goals> <configuration> <outputDirectory>${basedir}/target/.ebextensions</outputDirectory> 
+				<resources> <resource> <directory>environment/aws/ebextensions</directory> 
+				<targetPath> ${project.build.directory}/${project.name}-${project.version}/.ebextensions 
+				</targetPath> <filtering>false</filtering> </resource> </resources> </configuration> 
+				</execution> </executions> </plugin> -->
+
 
 			<!-- Embedded Tomcat server -->
 			<plugin>
@@ -100,6 +81,13 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.session/spring-session-data-redis -->
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+			<version>1.2.2.RELEASE</version>
 		</dependency>
 
 		<!-- CGLIB is required to process @Configuration classes -->

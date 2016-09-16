@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Import;
 @ComponentScan({
         "net.thewyvern.webapp.ec2.config"
 })
+
 public class AppConfig
 {
+
 }

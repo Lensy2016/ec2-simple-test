@@ -2,14 +2,21 @@ package net.thewyvern.webapp.ec2.config;
 
 import javax.servlet.ServletContext;  
 import javax.servlet.ServletException;  
-import javax.servlet.ServletRegistration.Dynamic;  
-  
+import javax.servlet.ServletRegistration.Dynamic;
+import javax.servlet.jsp.jstl.core.Config;
+
+import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
 import org.springframework.web.WebApplicationInitializer;  
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;  
 import org.springframework.web.servlet.DispatcherServlet;  
   
-public class Initializer implements WebApplicationInitializer {  
+public class Initializer extends AbstractHttpSessionApplicationInitializer implements WebApplicationInitializer {  
       
+	
+	public Initializer() {
+		super(RedisConfig.class);
+	}
+	
     @Override  
     public void onStartup(ServletContext servletContext) throws ServletException {  
           

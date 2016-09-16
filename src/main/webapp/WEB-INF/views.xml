@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+    <definition
+            name="layout"
+            template="/WEB-INF/view/pages/layout.jsp"
+    >
+        <put-attribute name="content" value="No content defined, error?" />
+    </definition>
+
+    <!-- All main pages -->
+    <definition name="pages.**" extends="layout">
+        <put-attribute name="content" value="/WEB-INF/view/pages/{1}.jsp" />
+    </definition>
+
+</tiles-definitions>

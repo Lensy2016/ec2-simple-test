@@ -7,7 +7,6 @@
 *.jar
 *.war
 *.ear
-context.xml
 
 # Build dir #
 target/
@@ -15,11 +14,16 @@ target/
 # We want to allow this one.. #
 !environment/aws/ebextensions/*.jar
 
+# But don't let anyone check in a new context.xml
+environment/aws/ebextensions/context.xml
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-
-
+# EB CLI
+!.elasticbeanstalk/config.yml
+!.elasticbeanstalk/saved_configs
+.elasticbeanstalk/logs
 
 # IDE
 .settings/

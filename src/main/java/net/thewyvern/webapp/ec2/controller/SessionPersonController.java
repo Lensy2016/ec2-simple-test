@@ -44,14 +44,12 @@ public class SessionPersonController extends BaseController {
         sessionData.setShoeSize(person.getShoeSize());
 
         if (person.isGenerateLoad() == true) {
-        	GenerateLoad.go();
+        	GenerateLoad.go(session.getId());
         }
         
     	ModelAndView modelAndView = new ModelAndView("pages.person-result-page");
                    
         sessionData.addHostToList(hostname());
-        session.invalidate();
-        status.setComplete();
         return modelAndView;  
     }   
 } 

@@ -4,15 +4,9 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 
-
 <c:if test="${sessionData.sessionBased}">
 <p>Student's name is ${sessionData.firstName} ${sessionData.lastName}. The age is ${sessionData.age} and shoe size is ${sessionData.shoeSize}.</p>
-<p>
-        <strong>
-            Processed By:
-        </strong>
-
-    </p>
+<p><strong>Processed By:</strong> <c:out value="${sessionData.hosts}"/></p>
 </c:if>
 
 <c:if test="${! sessionData.sessionBased}">

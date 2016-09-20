@@ -21,13 +21,14 @@ public class GenerateLoad {
 	 * @param args Command line arguments, ignored
 	 */
 	public static void main(String[] args) {
-		go();
+		go("n/a");
 	}
 
-	public static void go() {
+	public static void go(String label) {
 		int tc = numCore * numThreadsPerCore;
 		ArrayList<Thread> aT = new ArrayList<Thread>(tc);
 		
+		System.out.println(System.currentTimeMillis() + " - Starting load for session: " + label);
 		for (int thread = 0; thread < tc; thread++) {
 			Thread t = new BusyThread("Thread" + thread, load, duration); 
 			aT.add(t);
@@ -41,6 +42,7 @@ public class GenerateLoad {
 				e.printStackTrace();
 			}
 		}
+		System.out.println(System.currentTimeMillis() + " - Ended load for session: " + label);
 	}
 
 	/**

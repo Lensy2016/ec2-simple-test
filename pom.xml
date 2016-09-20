@@ -12,9 +12,19 @@
 
         <!-- By default we want no profiles; hence the below is just for documentation... -->
         <spring.profiles></spring.profiles>
+
+        <!-- Path for static resources -->
+        <static.resources>http://localhost:8080</static.resources>
+
     </properties>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
 
             <plugin>
@@ -174,6 +184,9 @@
 
         <profile>
             <id>s3</id>
+            <properties>
+                <static.resources>https://s3-eu-west-1.amazonaws.com/testapp-global</static.resources>
+            </properties>
             <build>
                 <plugins>
                     <!-- Copy S3 config (additive) -->

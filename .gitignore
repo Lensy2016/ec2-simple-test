@@ -12,7 +12,8 @@
 target/
 
 # We want to allow this one.. #
-!environment/aws/ebextensions/*.jar
+!environment/aws/ebextensions.memcache/*.jar
+!environment/aws/ebextensions.tc8/*.jar
 
 # But don't let anyone check in a new context.xml
 environment/aws/ebextensions/context.xml

@@ -24,7 +24,7 @@ import redis.clients.jedis.JedisPoolConfig;
  *
  */
 
-@EnableRedisHttpSession
+//@EnableRedisHttpSession
 public class RedisConfig {
 
 	static Properties redisProps;

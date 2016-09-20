@@ -1,9 +1,8 @@
 package net.thewyvern.webapp.ec2.config;
 
-import javax.servlet.ServletContext;  
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;  
 import javax.servlet.ServletRegistration.Dynamic;
-import javax.servlet.jsp.jstl.core.Config;
 
 import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
 import org.springframework.web.WebApplicationInitializer;  
@@ -19,8 +18,8 @@ public class Initializer extends AbstractHttpSessionApplicationInitializer imple
 	
     @Override  
     public void onStartup(ServletContext servletContext) throws ServletException {  
-          
-        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();  
+
+        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
         ctx.register(AppConfig.class);
           
         ctx.setServletContext(servletContext);    

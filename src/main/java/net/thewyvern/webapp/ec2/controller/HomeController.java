@@ -10,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController extends BaseController
 {
 
-
     @RequestMapping(value = {"/", "/home"})
     public ModelAndView home(HttpSession session)
     {

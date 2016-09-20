@@ -4,9 +4,11 @@ body
     background: #CCC;
 }
 
-header h1
+header h1,
+header h1 a
 {
     color: #f01e14;
+    text-decoration: none;
 }
 
 main

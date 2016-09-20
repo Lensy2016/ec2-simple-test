@@ -17,4 +17,10 @@
         <location>/page-not-found</location>
     </error-page>
 
+    <!-- Spring profiles enabled; configured at build-time using Maven property 'spring.profiles.active' ( not to be too confusing :) ) -->
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>${spring.profiles}</param-value>
+    </context-param>
+
 </web-app>

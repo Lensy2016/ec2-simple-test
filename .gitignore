@@ -31,3 +31,7 @@ hs_err_pid*
 .idea/
 .classpath
 .project
+*.iml
+
+# Prevent s3.cfg from being checked-in...
+environment/aws/ebextensions.s3/s3.cfg

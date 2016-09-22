@@ -1,6 +1,6 @@
 branch-defaults:
   initial-setup:
-    environment: ec2-simple-test-dev
+    environment: null
     group_suffix: null
 deploy:
   artifact: target/SimpleEC2App-0.0.1-SNAPSHOT.war

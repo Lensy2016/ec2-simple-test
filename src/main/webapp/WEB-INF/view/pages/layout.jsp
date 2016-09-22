@@ -8,12 +8,14 @@
         <title>
             EC2 Simple WebApp - <c:out value="${title}" />
         </title>
-        <link rel="stylesheet" type="text/css" href="<spring:url value='/content/css/layout.css' />" />
+        <link rel="stylesheet" type="text/css" href="${staticResourcesUrl}/content/css/layout.css" />
     </head>
     <body>
         <header>
             <h1>
-                EC2 Simple WebApp
+                <a href="/">
+                    EC2 Simple WebApp
+                </a>
             </h1>
             <h2>
                 <c:out value="${title}" />

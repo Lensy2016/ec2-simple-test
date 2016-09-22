@@ -6,7 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.session.data.redis.config.ConfigureRedisAction;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
@@ -14,18 +18,19 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 import redis.clients.jedis.JedisPoolConfig;
 
 /**
- * 
- * @author matthewd
- *
  * Note that elisticache redis isn't quite redis...
  * 
  * See: https://github.com/spring-projects/spring-session/issues/97
  *      https://github.com/spring-projects/spring-session/issues/124
  *
+ * Notes:
+ * - Build project with -Predis for this to work...
  */
-
-//@EnableRedisHttpSession
+@Profile("redis")
+@EnableRedisHttpSession
 public class RedisConfig {
+
+    private static final Logger LOG = LoggerFactory.getLogger(RedisConfig.class);
 
 	static Properties redisProps;
 	
@@ -42,7 +47,11 @@ public class RedisConfig {
 			e.printStackTrace();
 		}		
 	}
-	
+
+    @PostConstruct
+    public void warnUsage() {
+        LOG.warn("*****************************8 Using Redis! ************************");
+    }
 	
 
 	@Bean
@@ -72,4 +81,5 @@ public class RedisConfig {
       jedisPoolConfig.setMinIdle(Integer.parseInt(redisProps.getProperty("spring_session_redis_pool_min_idle")));
       return jedisPoolConfig;
     }
+
 }

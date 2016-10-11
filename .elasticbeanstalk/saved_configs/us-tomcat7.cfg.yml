@@ -1,0 +1,35 @@
+EnvironmentConfigurationMetadata:
+  Description: Configuration created from the EB CLI using "eb config save".
+  DateCreated: '1474897356000'
+  DateModified: '1474897356000'
+SolutionStack: 64bit Amazon Linux 2016.03 v2.2.0 running Tomcat 7 Java 7
+OptionSettings:
+  aws:elasticbeanstalk:command:
+    DeploymentPolicy: Immutable
+  aws:elasticbeanstalk:sns:topics:
+    Notification Endpoint: ''
+  aws:elb:policies:
+    ConnectionDrainingEnabled: true
+    ConnectionDrainingTimeout: '20'
+  aws:elb:loadbalancer:
+    CrossZone: true
+  aws:elasticbeanstalk:environment:
+    ServiceRole: aws-elasticbeanstalk-service-role
+    EnvironmentType: LoadBalanced
+  aws:elasticbeanstalk:application:
+    Application Healthcheck URL: ''
+  aws:elasticbeanstalk:healthreporting:system:
+    AWSEBHealthdGroupId: c4278192-da0d-4aba-a7cd-0dae73f65a34
+    SystemType: enhanced
+    HealthCheckSuccessThreshold: Ok
+  aws:autoscaling:launchconfiguration:
+    IamInstanceProfile: aws-elasticbeanstalk-ec2-role-wp
+    InstanceType: t1.micro
+    EC2KeyName: NGPP
+  aws:autoscaling:updatepolicy:rollingupdate:
+    RollingUpdateType: Health
+    RollingUpdateEnabled: true
+EnvironmentTier:
+  Type: Standard
+  Name: WebServer
+AWSConfigurationTemplateVersion: 1.1.0.0

@@ -1,0 +1,52 @@
+EnvironmentConfigurationMetadata:
+  Description: Configuration created from the EB CLI using "eb config save".
+  DateCreated: '1473949154000'
+  DateModified: '1473949154000'
+SolutionStack: 64bit Amazon Linux 2016.03 v2.2.0 running Tomcat 7 Java 7
+OptionSettings:
+  aws:elasticbeanstalk:command:
+    BatchSize: '100'
+    BatchSizeType: Percentage
+    DeploymentPolicy: Immutable
+  aws:elasticbeanstalk:container:tomcat:jvmoptions:
+    XX:MaxPermSize: 128m
+    Xmx: 2048m
+    JVM Options: -XX:+UseG1GC
+  aws:elbolicies:
+    ConnectionDrainingEnabled: true
+    ConnectionDrainingTimeout: '20'
+  aws:elb:loadbalancer:
+    CrossZone: true
+  aws:elasticbeanstalk:environment:
+    ServiceRole: aws-elasticbeanstalk-service-role
+    EnvironmentType: LoadBalanced
+    LoadBalancerType: classic
+  aws:elasticbeanstalk:application:
+    Application Healthcheck URL: '/health'
+  aws:autoscaling:trigger:
+    BreachDuration: '2'
+    Period: '1'
+    LowerThreshold: '40'
+    MeasureName: CPUUtilization
+    UpperThreshold: '65'
+    Unit: Percent
+    UpperBreachScaleIncrement: 2
+    LowerBreachScaleIncrement: -2
+  aws:autoscaling:launchconfiguration:
+    IamInstanceProfile: aws-elasticbeanstalk-ec2-role-wp
+    InstanceType: t1.micro
+    EC2KeyName: NGPP
+    SecurityGroups: EB VPC
+  aws:autoscaling:asg:
+    MinSize: '2'
+    MaxSize: '10'
+    Availability Zones: Any 2
+    Cooldown: 60
+  aws:autoscaling:updatepolicy:rollingupdate:
+    RollingUpdateType: Health
+    RollingUpdateEnabled: true
+    RollingUpdateType: Immutable
+EnvironmentTier:
+  Type: Standard
+  Name: WebServer
+AWSConfigurationTemplateVersion: 1.1.0.0

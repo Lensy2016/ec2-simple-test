@@ -1,0 +1,22 @@
+<Context path="/hpp" docBase="/hpp">
+    <!-- Database connection for the local Oracle database (WPG04) -->
+    <!-- if you want to use your own schema, edit the details below -->
+    <!--url="jdbc:oracle:thin:@ukdc1-tm-ora.worldpaytd.local:1521/wpg04dev_app.worldpaytd.local"-->
+    <Parameter name="minifyStaticResources" value="true" override="false" />
+    <Resource name="jdbc/ngppRtDatasource"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="ngppuser" password="ngppuser"
+              driverClassName="oracle.jdbc.OracleDriver"
+              url="jdbc:oracle:thin:@hppdb.cfwotvi7qruw.eu-west-1.rds.amazonaws.com:1521/hppdb"
+              maxActive="100" maxIdle="20"
+    />
+
+    <!--<Resources>-->
+        <!--<PreResources className="org.apache.catalina.webresources.DirResourceSet"-->
+                      <!--base="/usr/hpp/overrides"-->
+                      <!--webAppMount="/WEB-INF/classes"-->
+        <!--/>-->
+    <!--</Resources>-->
+
+</Context>

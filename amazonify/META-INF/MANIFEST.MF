@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Implementation-Vendor: WorldPay Gateway (WPG)
+Implementation-Title: WorldPay Gateway V4 Payment Pages: Payment Pages
+Implementation-Version: 1.16.0-SNAPSHOT
+Implementation-Vendor-Id: com.worldpay.gateway.v4pp.paymentpages
+Built-By: matthewd
+Build-Jdk: 1.7.0_80
+Specification-Vendor: WorldPay Gateway (WPG)
+Specification-Title: WorldPay Gateway V4 Payment Pages: Payment Pages
+Created-By: Apache Maven 3.3.9
+Specification-Version: 1.16.0-SNAPSHOT
+Archiver-Version: Plexus Archiver
+

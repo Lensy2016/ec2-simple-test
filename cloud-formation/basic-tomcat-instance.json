@@ -69,6 +69,23 @@
                                 "httpd": []
                             }
                         }
+                    },
+
+                    "files" : {
+                        "/var/www/html/index.html": {
+                            "content": {
+                                "Fn::Join": [
+                                    "\n",
+                                    [
+                                        "<h1>Hello world :)</h1>",
+                                        "<p>Example file served by Apache</p>"
+                                    ]
+                                ]
+                            },
+                            "mode": "000644",
+                            "owner": "root",
+                            "group": "root"
+                        }
                     }
                 }
             },
@@ -140,7 +157,7 @@
                             "chkconfig --level 345 httpd on\n",
 
                             "# Proxy all requests to Tomcat\n",
-                            "echo \"ProxyPass  / ajp://localhost:8009/\" >> /etc/httpd/conf/httpd.conf\n",
+                            "echo \"ProxyPass  /tomcat ajp://localhost:8009/\" >> /etc/httpd/conf/httpd.conf\n",
 
                             "# Start servers\n",
                             "service tomcat7 start\n",

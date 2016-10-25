@@ -2,7 +2,7 @@
 <Context>
 	<WatchedResource>WEB-INF/web.xml</WatchedResource>
 	<Manager className="de.javakaffee.web.msm.MemcachedBackupSessionManager"
-		memcachedNodes="hpp.oundwi.cfg.euw1.cache.amazonaws.com:11211"
+		memcachedNodes="${CLUSTER_PATH}"
 		requestUriIgnorePattern=".*\.(ico|png|gif|jpg|css|js)$"
 		sessionBackupAsync="false"
 		sticky="false"

@@ -8,7 +8,7 @@
               type="javax.sql.DataSource"
               username="ngppuser" password="ngppuser"
               driverClassName="oracle.jdbc.OracleDriver"
-              url="jdbc:oracle:thin:@hppdb.cfwotvi7qruw.eu-west-1.rds.amazonaws.com:1521/hppdb"
+              url="jdbc:oracle:thin:@${HPP_DB}:1521/hppdb"
               maxActive="100" maxIdle="20"
     />
 

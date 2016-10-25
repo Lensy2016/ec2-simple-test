@@ -1,20 +1,40 @@
 EnvironmentConfigurationMetadata:
-  DateCreated: '1474899872000'
-  DateModified: '1474899872000'
+  Description: Configuration created from the EB CLI using "eb config save".
+  DateCreated: '1477305985000'
+  DateModified: '1477305985000'
 SolutionStack: 64bit Amazon Linux 2016.03 v2.2.0 running Tomcat 7 Java 7
 OptionSettings:
   aws:elasticbeanstalk:command:
     BatchSize: '100'
     BatchSizeType: Percentage
-    DeploymentPolicy: Immutable
+    DeploymentPolicy: AllAtOnce
+  aws:elasticbeanstalk:container:tomcat:jvmoptions:
+    XX:MaxPermSize: 512m
+    Xmx: 2048m
+    JVM Options: -XX:+UseG1GC
+  aws:elasticbeanstalk:application:
+    Application Healthcheck URL: /status
+  aws:autoscaling:trigger:
+    BreachDuration: '2'
+    LowerBreachScaleIncrement: '-2'
+    UpperBreachScaleIncrement: '2'
+    LowerThreshold: '35'
+    MeasureName: CPUUtilization
+    Period: '1'
+    UpperThreshold: '65'
+    Unit: Percent
+  aws:autoscaling:asg:
+    MinSize: '2'
+    Cooldown: '60'
+    Availability Zones: Any
+    MaxSize: '10'
+  aws:autoscaling:updatepolicy:rollingupdate:
+    RollingUpdateType: Health
+    RollingUpdateEnabled: false
   aws:elasticbeanstalk:sns:topics:
     Notification Endpoint: ''
-  aws:elasticbeanstalk:container:tomcat:jvmoptions:
-    XX:MaxPermSize: 128m
-    Xmx: 512m
-    JVM Options: -XX:+UseG1GC
   aws:elb:policies:
-    ConnectionDrainingEnabled: true
+    ConnectionDrainingEnabled: false
     ConnectionDrainingTimeout: '20'
   aws:elb:loadbalancer:
     CrossZone: true
@@ -22,86 +42,19 @@ OptionSettings:
     ServiceRole: aws-elasticbeanstalk-service-role
     EnvironmentType: LoadBalanced
     LoadBalancerType: classic
-  aws:elasticbeanstalk:application:
-    Application Healthcheck URL: /health
-  aws:autoscaling:trigger:
-    BreachDuration: '2'
-    LowerThreshold: '35'
-    MeasureName: CPUUtilization
-    Period: '1'
-    UpperThreshold: '70'
-    Unit: Percent
   aws:elasticbeanstalk:healthreporting:system:
-    ConfigDocument:
-      Version: 1
-      CloudWatchMetrics:
-        Instance:
-          RootFilesystemUtil: null
-          CPUIrq: null
-          LoadAverage5min: 60
-          ApplicationRequests5xx: null
-          ApplicationRequests4xx: null
-          CPUUser: null
-          LoadAverage1min: null
-          ApplicationLatencyP50: null
-          CPUIdle: 60
-          InstanceHealth: null
-          ApplicationLatencyP95: null
-          ApplicationLatencyP85: null
-          ApplicationLatencyP90: null
-          CPUSystem: null
-          ApplicationLatencyP75: null
-          CPUSoftirq: null
-          ApplicationLatencyP10: null
-          ApplicationLatencyP99: null
-          ApplicationRequestsTotal: null
-          ApplicationLatencyP99.9: null
-          ApplicationRequests3xx: null
-          ApplicationRequests2xx: null
-          CPUIowait: null
-          CPUNice: null
-        Environment:
-          InstancesSevere: 60
-          InstancesDegraded: 60
-          ApplicationRequests5xx: 60
-          ApplicationRequests4xx: null
-          ApplicationLatencyP50: null
-          ApplicationLatencyP95: null
-          ApplicationLatencyP85: null
-          InstancesUnknown: null
-          ApplicationLatencyP90: null
-          InstancesInfo: null
-          InstancesPending: 60
-          ApplicationLatencyP75: null
-          ApplicationLatencyP10: null
-          ApplicationLatencyP99: null
-          ApplicationRequestsTotal: 60
-          InstancesNoData: 60
-          ApplicationLatencyP99.9: null
-          ApplicationRequests3xx: null
-          ApplicationRequests2xx: 60
-          InstancesOk: 60
-          InstancesWarning: null
-    AWSEBHealthdGroupId: dcf2ab15-c7e7-487f-816d-6377484eb5fe
     SystemType: enhanced
     HealthCheckSuccessThreshold: Ok
   aws:autoscaling:launchconfiguration:
-    MonitoringInterval: 1 minute
     SecurityGroups: EB VPC
     IamInstanceProfile: aws-elasticbeanstalk-ec2-role-wp
-    InstanceType: t1.micro
+    InstanceType: t2.small
     EC2KeyName: NGPP
-  aws:autoscaling:asg:
-    MinSize: '2'
-    Availability Zones: Any
-  aws:autoscaling:updatepolicy:rollingupdate:
-    RollingUpdateType: Immutable
-    RollingUpdateEnabled: true
 EnvironmentTier:
   Type: Standard
   Name: WebServer
 AWSConfigurationTemplateVersion: 1.1.0.0
 Tags:
-  WPG-APP: HPP
   WPG-TIER: APP
   WPG-REGION: EU
+  WPG-APP: HPP

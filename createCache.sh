@@ -9,6 +9,18 @@ case $1 in
 	REGION="eu-west-1"
 	SGROUP="sg-8e3222e9"
 	;;
+   "SA-EAST")
+       REGION="sa-east-1"
+       SGROUP="sg-72a53316"
+        ;;
+   "AP-NE")
+       REGION="ap-northeast-1"
+       SGROUP="sg-3c8b725b"
+        ;;
+   "AP-SE")
+       REGION="ap-southeast-1"
+       SGROUP="sg-02b7aa66"
+        ;;
    "")
 	echo "Requires a region (US-WEST, EU-WEST)"
 	exit 0

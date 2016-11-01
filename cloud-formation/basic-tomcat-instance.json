@@ -1,0 +1,228 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+
+    "Description" : "Simple template to create EC2 instances with Apache and Tomcat installed.",
+
+    "Parameters" :
+    {
+
+        "KeyName" :
+        {
+            "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+            "Type" : "AWS::EC2::KeyPair::KeyName",
+            "ConstraintDescription" : "must be the name of an existing EC2 KeyPair."
+        },
+
+        "InstanceType" :
+        {
+            "Description" : "FormEngine EC2 instance type",
+            "Type" : "String",
+            "Default" : "t2.micro"
+        }
+
+    },
+
+    "Mappings" :
+    {
+        "AWSInstanceType2Arch" :
+        {
+            "t2.micro"    : { "Arch" : "64" },
+            "t2.small"    : { "Arch" : "64" },
+            "t2.medium"   : { "Arch" : "64" },
+            "t2.large"    : { "Arch" : "64" }
+        },
+        "AWSRegionArch2AMI" : {
+            "eu-west-1"      : { "64" : "ami-d41d58a7" }
+        }
+    },
+    "Resources" :
+    {
+        "WebServerGroup" :
+        {
+            "Type" : "AWS::EC2::SecurityGroup",
+            "Properties" :
+            {
+                "GroupDescription" : "Enable SSH and HTTP access",
+                "SecurityGroupIngress" :
+                [
+                    { "IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : "0.0.0.0/0" },
+                    { "IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "CidrIp" : "0.0.0.0/0" }
+                ]
+            }
+        },
+
+        "WebServer":
+        {
+            "Type" : "AWS::EC2::Instance",
+            "Metadata" :
+            {
+                "AWS::CloudFormation::Init":
+                {
+                    "config" :
+                    {
+                        "packages" :
+                        {
+                            "yum" :
+                            {
+                                "java-1.7.0-openjdk": [],
+                                "tomcat7": [],
+                                "httpd": []
+                            }
+                        }
+                    },
+
+                    "files" : {
+                        "/var/www/html/index.html": {
+                            "content": {
+                                "Fn::Join": [
+                                    "\n",
+                                    [
+                                        "<h1>Hello world :)</h1>",
+                                        "<p>Example file served by Apache</p>"
+                                    ]
+                                ]
+                            },
+                            "mode": "000644",
+                            "owner": "root",
+                            "group": "root"
+                        }
+                    }
+                }
+            },
+
+            "Properties": {
+
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "AWSRegionArch2AMI",
+                        {"Ref": "AWS::Region"},
+                        {
+                            "Fn::FindInMap": [
+                                "AWSInstanceType2Arch",
+                                {"Ref": "InstanceType"},
+                                "Arch"
+                            ]
+                        }
+                    ]
+                },
+
+                "InstanceType": {"Ref": "InstanceType"},
+                "SecurityGroups": [{"Ref": "WebServerGroup"}],
+                "KeyName": {"Ref": "KeyName"},
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "WebServer"
+                    }
+                ],
+
+
+                "UserData" : {
+                    "Fn::Base64" : {
+                        "Fn::Join" : ["", [
+                            "#!/bin/bash -v\n",
+                            "date > /home/ec2-user/starttime\n",
+                            "yum update -y aws-cfn-bootstrap\n",
+
+                            "## Error reporting helper function\n",
+                            "function error_exit\n",
+                            "{\n",
+                            "   /opt/aws/bin/cfn-signal -e 1 -r \"$1\" '", { "Ref" : "WaitHandle" }, "'\n",
+                            "   exit 1\n",
+                            "}\n",
+
+                            "## Initialize CloudFormation bits - also installs packages\n",
+                            "/opt/aws/bin/cfn-init -v ",
+                            "   --stack ", { "Ref" : "AWS::StackId" },
+                            "   --resource WebServer",
+                            "   --region ", { "Ref" : "AWS::Region" },
+                            " > /tmp/cfn-init.log 2>&1 || error_exit $(</tmp/cfn-init.log)",
+                            "\n",
+
+                            "# Add Tomcat user to sudoers and disable tty\n",
+                            "echo \"tomcat ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers\n",
+                            "echo \"Defaults:%tomcat !requiretty\" >> /etc/sudoers\n",
+                            "echo \"Defaults:tomcat !requiretty\" >> /etc/sudoers\n",
+
+                            "# Set JVM settings\n",
+                            "echo \"JAVA_OPTS='${JAVA_OPTS} -Xms512m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=512m'\" >> /etc/tomcat7/tomcat7.conf\n",
+
+                            "# Tomcat Setup\n",
+                            "chown -R tomcat:tomcat /usr/share/tomcat7/\n",
+                            "chkconfig tomcat7 on\n",
+                            "chkconfig --level 345 tomcat7 on\n",
+
+                            "# Configure Apache HTTPD\n",
+                            "chkconfig httpd on\n",
+                            "chkconfig --level 345 httpd on\n",
+
+                            "# Proxy all requests to Tomcat\n",
+                            "echo \"ProxyPass  /tomcat ajp://localhost:8009/\" >> /etc/httpd/conf/httpd.conf\n",
+
+                            "# Start servers\n",
+                            "service tomcat7 start\n",
+                            "/etc/init.d/httpd start\n",
+
+                            "# Send signal to WaitHandle that the setup is completed\n",
+                            "/opt/aws/bin/cfn-signal", " -e 0", " '", { "Ref" : "WaitHandle" }, "'","\n",
+
+                            "date > /home/ec2-user/stoptime"
+                        ]]
+                    }
+                }
+
+            }
+
+        },
+
+        "IPAddress" :
+        {
+            "Type" : "AWS::EC2::EIP"
+        },
+
+        "IPAssoc" :
+        {
+            "Type" : "AWS::EC2::EIPAssociation",
+            "Properties" :
+            {
+                "InstanceId" : { "Ref" : "WebServer" },
+                "EIP" : { "Ref" : "IPAddress" }
+            }
+        },
+
+        "WaitHandle" : {
+            "Type" : "AWS::CloudFormation::WaitConditionHandle"
+        },
+
+        "WaitCondition" : {
+            "Type" : "AWS::CloudFormation::WaitCondition",
+            "DependsOn" : "WebServer",
+            "Properties" : {
+                "Handle" : { "Ref" : "WaitHandle" },
+                "Timeout" : "1200"
+            }
+        }
+
+    },
+
+
+    "Outputs" : {
+        "InstanceIPAddress" : {
+            "Value" : { "Ref" : "IPAddress" },
+            "Description" : "public IP address of the new WebServer"
+        },
+        "InstanceName" : {
+            "Value" : { "Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]},
+            "Description" : "public DNS name of the new WebServer"
+        },
+        "WebsiteURL" : {
+            "Description" : "URL for website",
+            "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]}]] }
+        },
+        "SSH" : {
+            "Description" : "Command to quickly SSH into box",
+            "Value" : { "Fn::Join" : ["", ["ssh ec2-user@", { "Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]}, " -i NGPP.pem" ]] }
+        }
+    }
+
+}
